@@ -1,0 +1,111 @@
+<h2 class="text-center">Read Me</h2>
+<br>
+<article class="markdown-body entry-content" itemprop="text">
+    <p>This <a href="https://emberjs.com/">Ember.js</a> addon helps load the css file(s) on demand, i.e. lazy loading, inside
+        the <code>&lt;link&gt;</code> tag in the <code>document</code> <code>&lt;head&gt;</code> using the service <code>m-css-loader</code>        .</p>
+    <h3>
+        <a id="user-content-lazy-loading-of-css" class="anchor" href="#lazy-loading-of-css" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>Lazy Loading of CSS</h3>
+    <p><a href="https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css">CSS are render blocking resources.</a>        The ambitious SPAs need more than one CSS resources (external libraries) and some of these CSS resources can be more
+        functionality centric and may not be required to get loaded on the Home screen or may be required only for few of
+        screens.</p>
+    <p>Suppose a web app uses Maps Library (like <a href="https://leafletjs.com">leaflet</a>) for displaying maps, which comes
+        with its own CSS. The maps are displayed only on couple of routes other than home screen. So the home screen is not
+        needed to load the CSS for maps. The maps CSS should be loaded when the routes displaying maps are requested. In
+        this scenario, its always preferable to load the CSS dynamically.</p>
+    <h2>
+        <a id="user-content-loadattr" class="anchor" href="#loadattr" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a><code>.load(attr)</code></h2>
+    <p>The method to load a CSS file on demand.</p>
+    <p><code>attr</code> is a JSON object which holds the attribute values for the <code>&lt;link&gt;</code> tag to load CSS.
+        It should at least have <code>href</code> property set to the source of the CSS.</p>
+    <pre><code>mCssLoader: Ember.inject.service('m-css-loader'), 
+beforeModel() {
+    this.get('mCssLoader').load({
+            href: 'http://cdn-assets/maps.css',
+            integrity: 'sha384-shfssiufhnof7348f738f7bw8g+Pmsjshdinwe98',
+            crossorigin: 'anonymous'
+        });
+}
+</code></pre>
+    <h4>
+        <a id="user-content-promise-based-load" class="anchor" href="#promise-based-load" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>Promise Based Load</h4>
+    <p>The service <code>m-css-loader</code> returns a promise. The service listens to the events <code>onload</code> and <code>onerror</code>        on the <code>&lt;link&gt;</code> tag in which the CSS is loaded. It resolves the promise inside <code>onload</code>        event and rejects it if <code>onerror</code> event is raised.</p>
+    <p>Use of this promise is completely optional and upto the requirement of the app. If a route needs to wait until the CSS
+        gets loaded then the service can be used inside the <code>beforeModel</code> hook.</p>
+    <pre><code>mCssLoader: Ember.inject.service('m-css-loader'), 
+beforeModel() {
+	return this.get('mCssLoader').load({
+		href: '/assets/maps.css'
+	});
+}
+</code></pre>
+    <h4>
+        <a id="user-content-caching" class="anchor" href="#caching" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>Caching</h4>
+    <p>The service <code>m-css-loader</code> caches the <code>href</code>s loaded to avoid injecting the same CSS more than
+        once.</p>
+    <h4>
+        <a id="user-content-cors" class="anchor" href="#cors" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>CORS</h4>
+    <p>The service inserts a <code>&lt;link&gt;</code> tag which as good as having it hardcoded at the time of html load. So
+        no <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">CORS</a> issue.</p>
+    <h2>
+        <a id="user-content-installation" class="anchor" href="#installation" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>Installation</h2>
+    <ul>
+        <li><code>git clone &lt;repository-url&gt;</code> this repository</li>
+        <li><code>cd ember-m-css-loader</code></li>
+        <li><code>npm install</code></li>
+    </ul>
+    <h2>
+        <a id="user-content-running" class="anchor" href="#running" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>Running</h2>
+    <ul>
+        <li><code>ember serve</code></li>
+        <li>Visit your app at <a href="http://localhost:4200">http://localhost:4200</a>, which loads the <a href="https://getbootstrap.com">bootstrap</a>            CSS lazily.</li>
+    </ul>
+    <h2>
+        <a id="user-content-running-tests" class="anchor" href="#running-tests" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>Running Tests</h2>
+    <ul>
+        <li><code>npm test</code> (Runs <code>ember try:each</code> to test your addon against multiple Ember versions)</li>
+        <li><code>ember test</code></li>
+        <li><code>ember test --server</code></li>
+    </ul>
+    <h2>
+        <a id="user-content-building" class="anchor" href="#building" aria-hidden="true">
+            <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+            </svg>
+        </a>Building</h2>
+    <ul>
+        <li><code>ember build</code></li>
+    </ul>
+    <p>For more information on using ember-cli, visit <a href="https://ember-cli.com/">https://ember-cli.com/</a>.</p>
+</article>
