@@ -1,7 +1,7 @@
 {
   "name": "ember-m-css-loader",
   "version": "0.1.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Lazy loading CSS using simple Ember Service",
   "keywords": [
     "ember-addon",
     "ember-css-loader",
