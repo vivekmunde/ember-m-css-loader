@@ -3,15 +3,22 @@
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "ember-css-loader",
+    "ember-css-lazy-loader",
+    "ember-css-load-on-demand"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "Vivek Munde",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "homepage": "https://github.com/vivekmunde/ember-m-css-loader",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivekmunde/ember-m-css-loader.git"
+  },
   "scripts": {
     "build": "ember build",
     "start": "ember server",
