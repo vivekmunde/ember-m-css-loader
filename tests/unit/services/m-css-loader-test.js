@@ -112,8 +112,8 @@ test('should compute link attr', function (assert) {
 
 // --------------------------------------------------------------------------------------------------
 
-test('should load css in a <link> tag in document <head>', function (assert) {
-  assert.expect(2);
+sinonTest('should load css in a <link> tag in document <head>', function (assert) {
+  assert.expect(5);
 
   let service = this.subject();
 
@@ -122,8 +122,18 @@ test('should load css in a <link> tag in document <head>', function (assert) {
     crossorigin: 'anonymous'
   };
 
-  service._loadCss(attr).then(() => {
+  const getLinkAttrStub = this.stub(service, '_getLinkAttr').returns({
+    type: 'text/css',
+    rel: 'stylesheet',
+    href: '../style.css',
+    crossorigin: 'anonymous'
+  });
+
+  return service._loadCss(attr).then(() => {
+    assert.ok(getLinkAttrStub.calledWith(attr), '_getLinkAttr was called');
     const $link = Ember.$('head link').last();
+    assert.equal($link.attr('type'), 'text/css', '<link> had type');
+    assert.equal($link.attr('rel'), 'stylesheet', '<link> had rel');
     assert.equal($link.attr('href'), '../style.css', '<link> had href');
     assert.equal($link.attr('crossorigin'), 'anonymous', '<link> had crossorigin');
   });
@@ -131,7 +141,7 @@ test('should load css in a <link> tag in document <head>', function (assert) {
 
 // --------------------------------------------------------------------------------------------------
 
-test('should handle error during css loading in a <link> tag in document <head>', function (assert) {
+sinonTest('should handle error during css loading in a <link> tag in document <head>', function (assert) {
   assert.expect(1);
 
   let service = this.subject();
@@ -141,7 +151,14 @@ test('should handle error during css loading in a <link> tag in document <head>'
     crossorigin: 'anonymous'
   };
 
-  service._loadCss(attr).then(() => { }, () => {
+  this.stub(service, '_getLinkAttr').returns({
+    type: 'text/css',
+    rel: 'stylesheet',
+    href: '/assets/404-style.css',
+    crossorigin: 'anonymous'
+  });
+
+  return service._loadCss(attr).then(() => { }, () => {
     !assert.equal(Ember.$('head link').last().attr('href'), '/assets/404-style.css');
   });
 });
@@ -157,7 +174,7 @@ sinonTest('should not load css for missing attr', function (assert) {
     _isValidAttrStub = this.stub(service, '_isValidAttr').returns(false),
     _isCachedSpy = this.spy(service, '_isCached');
 
-  service.load(attr).then(() => {
+  return service.load(attr).then(() => {
     assert.ok(_isValidAttrStub.calledWith(attr), 'attr validity was checked');
     assert.ok(_isCachedSpy.notCalled, 'css was not laoded');
   });
@@ -178,7 +195,7 @@ sinonTest('should not load already loaded css', function (assert) {
     _isCachedStub = this.stub(service, '_isCached').returns(true),
     _loadCssSpy = this.spy(service, '_loadCss');
 
-  service.load(attr).then(() => {
+  return service.load(attr).then(() => {
     assert.ok(_isValidAttrStub.calledOnce, 'attr validity was checked');
     assert.ok(_isCachedStub.calledWith(attr.href), 'href caching was checked');
     assert.ok(_loadCssSpy.notCalled, 'css was not loaded');
@@ -205,7 +222,7 @@ sinonTest('should load css', function (assert) {
     ),
     _updateCacheStub = this.stub(service, '_updateCache').returns();
 
-  service.load(attr).then(() => {
+  return service.load(attr).then(() => {
     assert.ok(_isValidAttrStub.calledOnce, 'attr validity was checked');
     assert.ok(_isCachedStub.calledOnce, 'href caching was checked');
     assert.ok(_loadCssStub.calledWith(attr), 'css was loaded');
@@ -233,7 +250,7 @@ sinonTest('should handle error dusing css load', function (assert) {
     ),
     _updateCacheStub = this.stub(service, '_updateCache').returns();
 
-  service.load(attr).catch(() => {
+  return service.load(attr).catch(() => {
     assert.ok(_isValidAttrStub.calledOnce, 'attr validity was checked');
     assert.ok(_isCachedStub.calledOnce, 'href caching was checked');
     assert.ok(_loadCssStub.calledWith(attr), 'css load was initiated');
