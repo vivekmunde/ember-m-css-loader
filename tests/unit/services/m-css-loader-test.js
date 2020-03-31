@@ -131,11 +131,12 @@ sinonTest('should load css in a <link> tag in document <head>', function (assert
 
   return service._loadCss(attr).then(() => {
     assert.ok(getLinkAttrStub.calledWith(attr), '_getLinkAttr was called');
-    const $link = Ember.$('head link').last();
-    assert.equal($link.attr('type'), 'text/css', '<link> had type');
-    assert.equal($link.attr('rel'), 'stylesheet', '<link> had rel');
-    assert.equal($link.attr('href'), '../style.css', '<link> had href');
-    assert.equal($link.attr('crossorigin'), 'anonymous', '<link> had crossorigin');
+    const linkTags = document.getElementsByTagName('link');
+    const linkTag = linkTags.item(linkTags.length - 1);
+    assert.equal(linkTag.getAttribute('type'), 'text/css', '<link> had type');
+    assert.equal(linkTag.getAttribute('rel'), 'stylesheet', '<link> had rel');
+    assert.equal(linkTag.getAttribute('href'), '../style.css', '<link> had href');
+    assert.equal(linkTag.getAttribute('crossorigin'), 'anonymous', '<link> had crossorigin');
   });
 });
 
@@ -159,7 +160,9 @@ sinonTest('should handle error during css loading in a <link> tag in document <h
   });
 
   return service._loadCss(attr).then(() => { }, () => {
-    !assert.equal(Ember.$('head link').last().attr('href'), '/assets/404-style.css');
+    const linkTags = document.getElementsByTagName('link');
+    const linkTag = linkTags.item(linkTags.length - 1);
+    !assert.equal(linkTag.getAttribute('href'), '/assets/404-style.css');
   });
 });
 
