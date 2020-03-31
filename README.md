@@ -1,4 +1,5 @@
-# ember-m-css-loader
+ember-m-css-loader
+==============================================================================
 
 This [Ember.js](https://emberjs.com/) addon helps load the css file(s) on demand, i.e. lazy loading, inside the `<link>` tag in the `document` `<head>` using the service `m-css-loader` .
 
@@ -44,25 +45,48 @@ The service `m-css-loader` caches the `href`s loaded to avoid injecting the same
 
 The service inserts a `<link>` tag which as good as having it hardcoded at the time of html load. So no [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) issue.
 
-## Installation
+Installation
+------------------------------------------------------------------------------
 
-* `git clone <repository-url>` this repository
+```
+ember install ember-m-css-loader
+```
+
+
+Usage
+------------------------------------------------------------------------------
+
+[Longer description of how to use the addon in apps.]
+
+
+Contributing
+------------------------------------------------------------------------------
+
+### Installation
+
+* `git clone <repository-url>`
 * `cd ember-m-css-loader`
 * `npm install`
 
-## Running
+### Linting
+
+* `npm run lint:js`
+* `npm run lint:js -- --fix`
+
+### Running tests
+
+* `ember test` – Runs the test suite on the current Ember version
+* `ember test --server` – Runs the test suite in "watch mode"
+* `npm test` – Runs `ember try:each` to test your addon against multiple Ember versions
+
+### Running the dummy application
 
 * `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200), which loads the [bootstrap](https://getbootstrap.com) CSS lazily.
-
-## Running Tests
-
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
+* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE.md).
