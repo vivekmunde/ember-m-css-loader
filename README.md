@@ -1,4 +1,5 @@
-# ember-m-css-loader
+ember-m-css-loader
+==============================================================================
 
 This [Ember.js](https://emberjs.com/) addon helps load the css file(s) on demand, i.e. lazy loading, inside the `<link>` tag in the `document` `<head>` using the service `m-css-loader` .
 
@@ -44,25 +45,36 @@ The service `m-css-loader` caches the `href`s loaded to avoid injecting the same
 
 The service inserts a `<link>` tag which as good as having it hardcoded at the time of html load. So no [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) issue.
 
-## Installation
 
-* `git clone <repository-url>` this repository
-* `cd ember-m-css-loader`
-* `npm install`
+Compatibility
+------------------------------------------------------------------------------
 
-## Running
+* Ember.js v3.12 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200), which loads the [bootstrap](https://getbootstrap.com) CSS lazily.
 
-## Running Tests
+Installation
+------------------------------------------------------------------------------
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+```
+ember install ember-m-css-loader
+```
 
-## Building
 
-* `ember build`
+Usage
+------------------------------------------------------------------------------
 
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+[Longer description of how to use the addon in apps.]
+
+
+Contributing
+------------------------------------------------------------------------------
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE.md).
