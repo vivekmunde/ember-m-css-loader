@@ -1,10 +1,13 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import { Promise } from 'rsvp';
+import Service from '@ember/service';
+import { isEmpty, isBlank } from '@ember/utils';
 
 // @public
-export default Ember.Service.extend({
+export default Service.extend({
 
     // @private
-    _cache: Ember.A(),
+    _cache: A(),
 
     // @private
     _isCached(href) {
@@ -29,7 +32,7 @@ export default Ember.Service.extend({
 
     // @private
     _loadCss(attr) {
-        return new Ember.RSVP.Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const link = document.createElement("link");
 
             document.body.appendChild(link);
@@ -52,12 +55,12 @@ export default Ember.Service.extend({
 
     // @private
     _isValidAttr(attr) {
-        return !Ember.isEmpty(attr) && !Ember.isEmpty(attr.href) && !Ember.isBlank(attr.href);
+        return !isEmpty(attr) && !isEmpty(attr.href) && !isBlank(attr.href);
     },
 
     // @public
     load(attr) {
-        return new Ember.RSVP.Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (!this._isValidAttr(attr)) {
                 resolve();
                 return;
