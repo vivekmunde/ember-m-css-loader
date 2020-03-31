@@ -30,15 +30,23 @@ export default Ember.Service.extend({
     // @private
     _loadCss(attr) {
         return new Ember.RSVP.Promise((resolve, reject) => {
-            Ember.$("<link>")
-                .appendTo("head")
-                .on('load', () => {
-                    resolve();
-                })
-                .on('error', () => {
-                    reject();
-                })
-                .attr(this._getLinkAttr(attr));
+            const link = document.createElement("link");
+
+            document.body.appendChild(link);
+
+            link.addEventListener('load', () => {
+                resolve();
+            });
+
+            link.addEventListener('error', () => {
+                reject();
+            });
+
+            const scriptAttrs = this._getLinkAttr(attr);
+            Object.keys(scriptAttrs)
+                .forEach(key => {
+                    link.setAttribute(key, scriptAttrs[key]);
+                });
         });
     },
 
