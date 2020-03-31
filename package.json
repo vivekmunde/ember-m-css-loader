@@ -1,6 +1,6 @@
 {
   "name": "ember-m-css-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lazy loading CSS using simple Ember Service",
   "keywords": [
     "ember-addon",
