@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { inject } from '@ember/service';
+import { hash } from 'rsvp';
 
-export default Ember.Route.extend({
-    mCssLoader: Ember.inject.service('m-css-loader'),
+export default Route.extend({
+    mCssLoader: inject('m-css-loader'),
     beforeModel() {
-        return Ember.RSVP.hash({
+        return hash({
             bootstrap: this.get('mCssLoader').load({
                 href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
                 integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
